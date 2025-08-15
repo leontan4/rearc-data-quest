@@ -4,6 +4,8 @@ This project implements the 4-part Rearc Data Quest challenge using AWS services
 The pipeline ingests public datasets, processes them into clean outputs, and stores results in S3, with automation via AWS Lambda and event triggers.
 
 ## Project Structure
+
+```tree
 .
 ├── build
 │   ├── client_bls_lambda.zip
@@ -37,3 +39,4 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
     ├── terraform.tfstate.backup
     ├── test
     └── variables.tf
+```
