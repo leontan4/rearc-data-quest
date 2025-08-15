@@ -10,5 +10,4 @@ data "aws_ecr_image" "shared" {
 
 output "rearc_image_repo_url" {
   value = aws_ecr_repository.client_image["rearc"].repository_url
-  #   064969512809.dkr.ecr.us-east-1.amazonaws.com/rearc-image
 }
