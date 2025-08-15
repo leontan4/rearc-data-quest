@@ -90,3 +90,21 @@ terraform apply
   - Lambda functions
   - Event triggers (S3 → Lambda)
   - Bucket policy for public read
+```
+
+---
+
+### **Future Improvements**
+While the current implementation successfully completes all required parts of the project, we can potentiall enhance scalability, automation, and maintainability in future iterations for thisd pipeline:
+
+1. **Automated CI/CD with AWS CodeBuild & CodePipeline**
+- Set up a `CI/CD` pipeline that automatically builds, tests, and deploys new Lambda container images to ECR whenever changes are pushed to the GitHub repository.
+- This would reduce manual deployment steps and improve developer productivity.
+
+2. **Container Orchestration with Amazon EKS (Kubernetes)**
+- Migrate heavy workloads to Kubernetes clusters on Amazon EKS for better scalability and load balancing.
+- This is especially useful if multiple parallel processing jobs are required like extracting BLS and census data at the same time.
+
+3. **Data Workflow Management with AWS Step Functions**
+-- Replace simple event triggers with Step Functions for more complex workflows, error handling, and retries between Lambda functions.
+--This would improve resilience and make the pipeline easier to monitor and debug.
