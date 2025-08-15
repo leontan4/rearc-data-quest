@@ -73,13 +73,16 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
 - **Terraform** provisions:
   - **Amazon S3**:  
   - Raw and processed data storage for `bls`, `census` and `analytics`.  
-  - Optional bucket policy for public read access has been disabled and should have public access.
+  - Optional bucket policy for public read access has been disabled and should have public access (Example image below).
   - <img width="1381" height="979" alt="image" src="https://github.com/user-attachments/assets/cf9cc221-af23-4d71-809c-4997ebae7eed" />
 - **AWS Lambda Functions**:
   - For data retrieval, processing, and analytics tasks.  
-  - Packaged as `.zip` or built as container images (see `Dockerfile` for build process).  
+  - Packaged as `.zip` initially and decided to built as container images (see `Dockerfile` for build process) to further automate the process and increase library memory limitation.
+  - The other reason we use ECR is because lambda layer has a certain limitation such as layer size limit and runtime constraints. Heavy python libraries such as pandas, numpy or scikit-learn can easily exceed limit when packaged with dependencies.
+  - Ingestion (BLS and Census) lambda function can be found in `../src/functions/client_rearc_lambda.py`
+  - Analytics lambda function can be found in `../src/functions/analytics_rearc_lambda.py`.
 - **AWS SQS**:  
-  - Message queue for event-driven Lambda execution.  
+  - Message queue for event-driven Lambda execution.
 - **Amazon EventBridge**:  
   - Scheduled triggers for periodic Lambda runs.  
 - **IAM Roles & Policies**:  
@@ -96,7 +99,3 @@ terraform apply
   - Lambda functions
   - Event triggers (S3 → Lambda)
   - (Optional) Bucket policy for public read
-and can be found in `../src/functions/client_rearc_lambda.py`
- and lambda function is at `../src/functions/analytics_rearc_lambda.py`.
-  
-  
