@@ -12,23 +12,16 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
 │   ├── client_bls_lambda.zip
 │   └── client_rearc_lambda.zip
 ├── Dockerfile
-├── layers
-│   ├── analytics_layer.zip
-│   └── api_layer.zip
 ├── requirements.txt
 ├── src
-│   ├── __init__.py
-│   ├── __pycache__
 │   ├── analytics
 │   │   └── analytics_rearc_lambda.py
 │   ├── analytics.ipynb
 │   ├── archive
-│   │   ├── __init__.py
 │   │   ├── analytics.py
 │   │   ├── bls.py
 │   │   └── census.py
 │   └── functions
-│       ├── __init__.py
 │       └── client_rearc_lambda.py
 └── terraform
     ├── containers.tf
@@ -36,9 +29,6 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
     ├── iam.tf
     ├── main.tf
     ├── provider.tf
-    ├── terraform.tfstate
-    ├── terraform.tfstate.backup
-    ├── test
     └── variables.tf
 ```
 ## Pipeline Flow
@@ -99,4 +89,4 @@ terraform apply
   - IAM roles/policies
   - Lambda functions
   - Event triggers (S3 → Lambda)
-  - (Optional) Bucket policy for public read
+  - Bucket policy for public read
