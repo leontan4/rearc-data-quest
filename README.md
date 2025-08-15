@@ -2,9 +2,10 @@
 ## Overview
 This project implements the 4-part Rearc Data Quest challenge using AWS services, Python, Terraform, and S3.
 The pipeline ingests public datasets, processes them into clean outputs, and stores results in S3, with automation via AWS Lambda and event triggers.
----
-## Project Structure
 
+---
+
+## Project Structure
 ```tree
 .
 ├── build
