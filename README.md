@@ -106,5 +106,5 @@ While the current implementation successfully completes all required parts of th
 - This is especially useful if multiple parallel processing jobs are required like extracting BLS and census data at the same time.
 
 3. **Data Workflow Management with AWS Step Functions**
--- Replace simple event triggers with Step Functions for more complex workflows, error handling, and retries between Lambda functions.
---This would improve resilience and make the pipeline easier to monitor and debug.
+- Replace simple event triggers with Step Functions for more complex workflows, error handling, and retries between Lambda functions.
+- This would improve resilience and make the pipeline easier to monitor and debug.
