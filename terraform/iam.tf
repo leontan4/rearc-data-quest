@@ -146,3 +146,33 @@ resource "aws_iam_role_policy" "client_analytics_lambda_sqs_policy" {
   role     = aws_iam_role.client_iam_lambda_role["analytics"].id
   policy   = data.aws_iam_policy_document.client_analytics_lambda_sqs_document[each.key].json
 }
+
+# Allowing public access to S3 bucket
+data "aws_iam_policy_document" "client_s3_public_bucket_policy_document" {
+  for_each = local.clientData
+  statement {
+    sid     = "PublicReadGetObject"
+    effect  = "Allow"
+    actions = ["s3:GetObject"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.client_s3_bucket[each.key].bucket}/*"
+    ]
+  }
+}
+
+# Attach the policy to the bucket
+resource "aws_s3_bucket_policy" "client_public_bucket_policy" {
+  for_each = local.clientData
+  bucket = aws_s3_bucket.client_s3_bucket[each.key].id
+  policy = data.aws_iam_policy_document.client_s3_public_bucket_policy_document[each.key].json
+
+  depends_on = [
+    aws_s3_bucket_public_access_block.client_s3_public_access
+  ]
+}
