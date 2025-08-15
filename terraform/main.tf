@@ -59,6 +59,16 @@ resource "aws_s3_bucket" "client_s3_bucket" {
   }
 }
 
+# Mking S3 bucket public
+resource "aws_s3_bucket_public_access_block" "client_s3_public_access" {
+  for_each                = local.clientData
+  bucket                  = aws_s3_bucket.client_s3_bucket[each.key].id
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = false
+  restrict_public_buckets = false
+}
+
 # Define and setup lambda
 resource "aws_lambda_function" "client_lambda" {
   for_each      = local.clientLambda
