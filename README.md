@@ -2,7 +2,7 @@
 ## Overview
 This project implements the 4-part Rearc Data Quest challenge using AWS services, Python, Terraform, and S3.
 The pipeline ingests public datasets, processes them into clean outputs, and stores results in S3, with automation via AWS Lambda and event triggers.
-
+---
 ## Project Structure
 
 ```tree
@@ -40,3 +40,63 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
     ├── test
     └── variables.tf
 ```
+## Pipeline Flow
+### **Part 1 – Data Ingestion (BLS + Census data)**
+
+- Public datasets are downloaded using Python and loaded into S3.
+- Stored in S3 bucket:
+  **S3 URI (Census)**: `s3://rearc-raw-bucket-dev/census/2025-08-15/census.json`
+  **S3 URI (BLS)**: `s3://rearc-raw-bucket-dev/bls/pr/pr.data.0.Current`
+  **S3 URI (Analytics)**: `s3://rearc-raw-bucket-dev/analytics/2025-08-15/bls_census_stats.parquet`
+
+---
+
+### **Part 2 – Lambda Clients**
+- **AWS Lambda** fetches dataset updates from the Rearc API.
+- Packaged in `client_rearc_lambda.zip` and deployed using Terraform (later was containerized with ECR).
+- The original functions can be found in `../src/archive/bls.py` and `../src/archive/census.py`
+- I combined the `census` and `bls` function into one lambda (will be explain in Part 4)
+
+----
+
+### **Part 3 – Data Analysis**
+- Jupyter Notebook (`analytics.ipynb`) reads data from S3.
+- Processes data using **Pandas/Numpy** and generates summary stats by merging BLS and Census data.
+- It is then output to `s3://rearc-raw-bucket-dev/analytics/` as a praquet file.
+- The python function can be found at `../src/archive/analytics.py`.
+- The Jupyter Notebook is at `../src/analytics.ipynb`.
+- The analysis also has a lambda function and will be explain further in Part 4.
+
+---
+
+### **Part 4 – Infrastructure as Code**
+- **Terraform** provisions:
+  - **Amazon S3**:  
+  - Raw and processed data storage for `bls`, `census` and `analytics`.  
+  - Optional bucket policy for public read access has been disabled and should have public access.
+  - <img width="1381" height="979" alt="image" src="https://github.com/user-attachments/assets/cf9cc221-af23-4d71-809c-4997ebae7eed" />
+- **AWS Lambda Functions**:
+  - For data retrieval, processing, and analytics tasks.  
+  - Packaged as `.zip` or built as container images (see `Dockerfile` for build process).  
+- **AWS SQS**:  
+  - Message queue for event-driven Lambda execution.  
+- **Amazon EventBridge**:  
+  - Scheduled triggers for periodic Lambda runs.  
+- **IAM Roles & Policies**:  
+  - Grant least-privilege access to AWS services.  
+
+**Deployment:**  
+```bash
+cd terraform
+terraform init
+terraform plan
+terraform apply
+  - S3 buckets
+  - IAM roles/policies
+  - Lambda functions
+  - Event triggers (S3 → Lambda)
+  - (Optional) Bucket policy for public read
+and can be found in `../src/functions/client_rearc_lambda.py`
+ and lambda function is at `../src/functions/analytics_rearc_lambda.py`.
+  
+  
