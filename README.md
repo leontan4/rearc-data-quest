@@ -36,9 +36,9 @@ The pipeline ingests public datasets, processes them into clean outputs, and sto
 
 - Public datasets are downloaded using Python and loaded into S3.
 - Stored in S3 bucket:
-  **S3 URI (Census)**: `s3://rearc-raw-bucket-dev/census/2025-08-15/census.json`
-  **S3 URI (BLS)**: `s3://rearc-raw-bucket-dev/bls/pr/pr.data.0.Current`
-  **S3 URI (Analytics)**: `s3://rearc-raw-bucket-dev/analytics/2025-08-15/bls_census_stats.parquet`
+  - **S3 URI (Census)**: `s3://rearc-raw-bucket-dev/census/2025-08-15/census.json`
+  - **S3 URI (BLS)**: `s3://rearc-raw-bucket-dev/bls/pr/pr.data.0.Current`
+  - **S3 URI (Analytics)**: `s3://rearc-raw-bucket-dev/analytics/2025-08-15/bls_census_stats.parquet`
 
 ---
 
